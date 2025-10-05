@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroBit AI - Plataforma de Descoberta de Exoplanetas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body class="overflow-x-hidden">
+
+    <!-- =============== NAVBAR/HEADER ===============  -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-brand-dark/80 backdrop-blur-sm border-b border-transparent">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold text-white tracking-wider">AstroBit AI</a>
+            <div class="hidden md:flex space-x-8 items-center text-brand-muted">
+                <a href="#guides" class="nav-link">Guides</a>
+                <a href="#data-input" class="nav-link">Data Analysis</a>
+                <a href="#ai-model" class="nav-link">AI Model</a>
+
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#guides" class="block py-2 text-brand-muted hover:text-white">Guias</a>
+            <a href="#data-input" class="block py-2 text-brand-muted hover:text-white">Data Analysis</a>
+            <a href="#ai-model" class="block py-2 text-brand-muted hover:text-white">AI Model</a>
+
+        </div>
+    </header>
+
+    <!-- =============== MAIN ===============  -->
+    <main id="main-content">
+
+        <!-- home -->
+        <section id="home" class="h-screen flex flex-col items-center justify-center text-center p-4">
+            <div class="z-10">
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-4">AstroBit AI</h1>
+                <p class="text-lg md:text-xl text-brand-muted max-w-2xl">
+                    Using Artificial Intelligence to accelerate the discovery of new worlds.
+                </p>
+            </div>
+            <div class="absolute bottom-10">
+                <a href="#about" class="scroll-down">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white h-8 w-8"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- guides -->
+        <section id="guides" class="py-24 bg-brand-surface">
+            <div class="container mx-auto px-6">
+                <div class="fade-in-up">
+                    <h2 class="section-title"> Intergalactic Guide</h2>
+                    <p class="section-subtitle">
+                        Tips and instructions for using the platform easily and efficiently</p>
+                </div>
+
+                <div class="swiper relative mt-12">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" style="background-image:url(https://images.unsplash.com/photo-1570284613060-766c33850e00?q=80&w=2670&auto=format&fit=crop)">
+                        <div class="slide-content">
+                            <h3 class="text-3xl font-bold">What Are Exoplanets?</h3>
+                            <p class="mt-2">An introduction to planets that orbit other stars.</p>
+                        </div>
+
+                        </div>
+                        <div class="swiper-slide" style="background-image:url(https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2670&auto=format&fit=crop)">
+                            <div class="slide-content">
+                                <h3 class="text-3xl font-bold">Understanding the Data</h3>
+                                <p class="mt-2">A glossary of the variables used by our AI model.</p>
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide" style="background-image:url(https://images.unsplash.com/photo-1554475901-4538adb752c9?q=80&w=2670&auto=format&fit=crop)">
+                            <div class="slide-content">
+                                <h3 class="text-3xl font-bold">How to Use the Tool</h3>
+                                <p class="mt-2">A step-by-step guide to analyzing your data on the platform.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-prev text-white"></div>
+                    <div class="swiper-button-next text-white"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="guides.html" class="inline-flex items-center gap-3 bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg hover:shadow-sky-500/20 text-white font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                        <span>All Guides</span>
+                    </a>
+                </div>
+            </div>
+        </section> <!-- guides -->
+
+
+        <!-- InputData -->
+        <section id="data-input" class="py-24">
+            <div class="container mx-auto px-6 fade-in-up">
+                <h2 class="section-title">Astronomical Data Analysis</h2>
+                <p class="section-subtitle"> Upload a CSV with your transit data or enter values manually for an instant classification.</p>
+                <div class="max-w-4xl mx-auto surface-card p-8">
+                    <div class="flex justify-center mb-8 border border-gray-600 rounded-lg p-1 bg-brand-dark">
+                        <button id="btn-csv" class="w-1/2 py-2 rounded-md bg-brand-primary text-brand-dark font-semibold" onclick="switchInput('csv')">Upload de CSV</button>
+                        <button id="btn-manual" class="w-1/2 py-2 rounded-md text-brand-muted" onclick="switchInput('manual')">Entrada Manual</button>
+                    </div>
+                    
+                    <div id="csv-input-area">
+                        <div class="text-center mb-6">
+                            <input type="file" id="csv-file-input" accept=".csv" class="block w-full max-w-md mx-auto text-sm text-brand-muted file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-primary/20 file:text-brand-primary hover:file:bg-brand-primary/30"/>
+                        </div>
+                        <h3 class="text-lg font-semibold text-center mb-4 text-white">Mapeamento de Colunas</h3>
+                        <p class="text-sm text-brand-muted text-center mb-4">Associe as colunas do seu arquivo aos campos exigidos pelo AstroBit.</p>
+                        <div id="column-mapping" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            </div>
+                    </div>
+
+                    <div id="manual-input-area" class="hidden">
+                         <form id="manual-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" name="object_id" placeholder="ID do Objeto (ex: K00752.01)" class="bg-brand-dark border border-gray-600 text-white rounded-lg p-3 focus:ring-brand-primary focus:border-brand-primary">
+                            <input type="number" step="any" name="orbital_period" placeholder="Período Orbital (dias)" class="bg-brand-dark border border-gray-600 text-white rounded-lg p-3 focus:ring-brand-primary focus:border-brand-primary">
+                            <input type="number" step="any" name="transit_duration" placeholder="Duração do Trânsito (horas)" class="bg-brand-dark border border-gray-600 text-white rounded-lg p-3 focus:ring-brand-primary focus:border-brand-primary">
+                            <input type="number" step="any" name="transit_depth_ppm" placeholder="Profundidade do Trânsito (ppm)" class="bg-brand-dark border border-gray-600 text-white rounded-lg p-3 focus:ring-brand-primary focus:border-brand-primary">
+                            <input type="number" step="any" name="planet_radius" placeholder="Raio do Planeta (raios terrestres)" class="bg-brand-dark border border-gray-600 text-white rounded-lg p-3 focus:ring-brand-primary focus:border-brand-primary">
+                            <input type="number" step="any" name="stellar_temp" placeholder="Temp. Estelar (K)" class="bg-brand-dark border border-gray-600 text-white rounded-lg p-3 focus:ring-brand-primary focus:border-brand-primary">
+                            <input type="number" step="any" name="stellar_logg" placeholder="log(g) Estelar" class="bg-brand-dark border border-gray-600 text-white rounded-lg p-3 focus:ring-brand-primary focus:border-brand-primary">
+                            <input type="number" step="any" name="stellar_radius" placeholder="Raio Estelar (raios solares)" class="bg-brand-dark border border-gray-600 text-white rounded-lg p-3 focus:ring-brand-primary focus:border-brand-primary">
+                        </form>
+                    </div>
+                    
+                    <div class="mt-8 text-center">
+                        <button onclick="analyzeData()" class="bg-brand-primary hover:bg-sky-400 text-brand-dark font-bold py-3 px-12 rounded-lg text-lg transition duration-300">
+                            Analisar Dados
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="ai-model" class="py-24 bg-brand-surface">
+            <div class="container mx-auto px-6 fade-in-up">
+                <h2 class="section-title">A Inteligência por Trás do AstroBit</h2>
+                <p class="section-subtitle">
+                    Nosso modelo foi treinado com milhares de pontos de dados do Telescópio Espacial Kepler para classificar candidatos a exoplanetas com alta precisão e confiabilidade.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                    <div class="surface-card p-8 lg:col-span-2">
+                        <h3 class="text-2xl font-bold mb-4 text-white flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-primary"><path d="m12 14 4-4"/><path d="m12 14 4 4"/><path d="m12 14 4-4"/><path d="m12 14-4 4"/><path d="m12 14-4-4"/><path d="M12 14l-4 4"/><path d="m12 14 4-4"/><path d="m12 14 4 4"/><path d="m12 14-4 4"/><path d="M12 14l-4-4"/><path d="m12 14-4 4"/><path d="m12 14 4 4"/><path d="M12 14l4-4"/></svg>
+                            <span>Random Forest Classifier</span>
+                        </h3>
+                        <p class="text-brand-muted mb-6">
+                            Optamos pelo Random Forest por sua robustez, alta performance em dados complexos e, crucialmente, pela sua capacidade de interpretar quais características (features) são mais importantes para a classificação, algo essencial para a validação científica.
+                        </p>
+
+                        <h4 class="text-lg font-semibold text-white mb-4">Fluxo de Trabalho do Modelo</h4>
+                        <ol class="relative border-l border-gray-700 space-y-6">
+                            <li class="ml-6">
+                                <span class="absolute flex items-center justify-center w-6 h-6 bg-brand-primary rounded-full -left-3 ring-8 ring-brand-surface">1</span>
+                                <h5 class="font-semibold text-white">Coleta e Preparação de Dados</h5>
+                                <p class="text-sm text-brand-muted">Utilizamos o dataset público do Kepler, tratando dados ausentes e normalizando as features para o treinamento.</p>
+                            </li>
+                            <li class="ml-6">
+                                <span class="absolute flex items-center justify-center w-6 h-6 bg-brand-primary rounded-full -left-3 ring-8 ring-brand-surface">2</span>
+                                <h5 class="font-semibold text-white">Treinamento e Validação</h5>
+                                <p class="text-sm text-brand-muted">O modelo foi treinado com 70% dos dados e validado com os 30% restantes, usando a técnica de Validação Cruzada (Cross-Validation).</p>
+                            </li>
+                            <li class="ml-6">
+                                <span class="absolute flex items-center justify-center w-6 h-6 bg-brand-primary rounded-full -left-3 ring-8 ring-brand-surface">3</span>
+                                <h5 class="font-semibold text-white">Implantação</h5>
+                                <p class="text-sm text-brand-muted">O modelo finalizado foi integrado à plataforma para fornecer classificações em tempo real.</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                   <div class="surface-card p-8">
+                    <h3 class="text-2xl font-bold mb-6 text-white">Métricas de Performance Reais</h3>
+                    <ul class="space-y-5">
+                        <li class="flex items-start gap-4">
+                            <div class="bg-green-500/10 text-green-400 rounded-lg p-2"></div>
+                            <div>
+                                <span class="font-bold text-lg text-white">Acurácia: <span id="metric-accuracy">...</span>%</span>
+                                <p class="text-sm text-brand-muted">Percentual de previsões corretas do modelo.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="bg-sky-500/10 text-sky-400 rounded-lg p-2"></div>
+                            <div>
+                                <span class="font-bold text-lg text-white">Precisão (Média): <span id="metric-precision">...</span>%</span>
+                                <p class="text-sm text-brand-muted">Dos "planetas" previstos, quantos eram realmente planetas.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="bg-yellow-500/10 text-yellow-400 rounded-lg p-2"></div>
+                            <div>
+                                <span class="font-bold text-lg text-white">Recall (Média): <span id="metric-recall">...</span>%</span>
+                                <p class="text-sm text-brand-muted">De todos os planetas reais, quantos o modelo encontrou.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                    <div class="surface-card p-6 lg:col-span-1">
+                        <h3 class="text-xl font-bold mb-2 text-center text-white">Matriz de Confusão</h3>
+                        <canvas id="confusionMatrixChart"></canvas>
+                        <p class="text-xs text-brand-muted text-center mt-3">Visualização do desempenho do modelo. A diagonal principal forte indica alta precisão, mostrando que as previsões correspondem à realidade.</p>
+                    </div>
+
+                    <div class="surface-card p-6 lg:col-span-2">
+                        <h3 class="text-xl font-bold mb-2 text-center text-white">Importância das Features</h3>
+                        <canvas id="featureImportanceChart"></canvas>
+                        <p class="text-xs text-brand-muted text-center mt-3">Indica quais dados foram mais influentes para a decisão do modelo. Quanto maior a barra, mais importante a característica.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-brand-dark border-t border-gray-800">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-2">AstroBit</h3>
+                    <p class="text-brand-muted max-w-xs">
+                        Uma plataforma de IA para acelerar a descoberta de exoplanetas, utilizando dados da missão Kepler da NASA.
+                    </p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-brand-muted hover:text-brand-primary transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <a href="#" class="text-brand-muted hover:text-brand-primary transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold text-white">Navegação</h4>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="index.html#about" class="text-brand-muted hover:text-brand-primary transition-colors">O Projeto</a></li>
+                        <li><a href="index.html#data-input" class="text-brand-muted hover:text-brand-primary transition-colors">Análise de Dados</a></li>
+                        <li><a href="index.html#ai-model" class="text-brand-muted hover:text-brand-primary transition-colors">Modelo IA</a></li>
+                        <li><a href="guias.html" class="text-brand-muted hover:text-brand-primary transition-colors">Base de Conhecimento</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold text-white">Fontes e Tecnologias</h4>
+                    <ul class="mt-4 space-y-2 text-brand-muted">
+                        <li class="flex items-center gap-2">Dados fornecidos pela <a href="https://exoplanetarchive.ipac.caltech.edu/" target="_blank" class="underline hover:text-brand-primary">NASA Exoplanet Archive</a>.</li>
+                        <li>Modelo de IA construído com Scikit-learn.</li>
+                        <li>Visualizações por Chart.js e Swiper.js.</li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-brand-muted">
+                <p>&copy; 2025 Projeto AstroBit. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="results-page" class="hidden fixed inset-0 bg-brand-dark/90 backdrop-blur-sm z-50 overflow-y-auto p-4 md:p-8">
+        <div class="max-w-7xl w-full mx-auto bg-brand-surface rounded-2xl border border-gray-700 shadow-2xl p-6 md:p-8 relative animate-fade-in">
+            <button onclick="hideResultsPage()" class="absolute top-4 right-4 text-brand-muted hover:text-white text-3xl">&times;</button>
+            <h2 class="section-title">Resultados da Análise</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center mb-8">
+                <div class="bg-brand-dark p-4 rounded-lg border border-gray-700">
+                    <p class="text-3xl font-bold text-white" id="total-analyzed">0</p>
+                    <p class="text-sm text-brand-muted">Entradas Analisadas</p>
+                </div>
+                <div class="bg-brand-dark p-4 rounded-lg border border-gray-700">
+                    <p class="text-3xl font-bold text-green-400" id="total-confirmed">0</p>
+                    <p class="text-sm text-brand-muted">Planetas Confirmados</p>
+                </div>
+                 <div class="bg-brand-dark p-4 rounded-lg border border-gray-700">
+                    <p class="text-3xl font-bold text-yellow-400" id="total-candidates">0</p>
+                    <p class="text-sm text-brand-muted">Candidatos</p>
+                </div>
+                <div class="bg-brand-dark p-4 rounded-lg border border-gray-700">
+                    <p class="text-3xl font-bold text-red-400" id="total-false-positives">0</p>
+                    <p class="text-sm text-brand-muted">Falsos Positivos</p>
+                </div>
+            </div>
+
+            <div class="bg-brand-dark rounded-lg p-4 overflow-x-auto border border-gray-700">
+                 <table class="w-full text-left">
+                     <thead>
+                         <tr class="border-b border-gray-700">
+                             <th class="p-3">ID do Objeto</th>
+                             <th class="p-3">Classificação</th>
+                             <th class="p-3">Período Orbital (dias)</th>
+                             <th class="p-3">Raio do Planeta (R⊕)</th>
+                             <th class="p-3"></th>
+                         </tr>
+                     </thead>
+                     <tbody id="results-table-body">
+                         </tbody>
+                 </table>
+            </div>
+        </div>
+    </div>
+    
+    <div id="planet-detail-modal" class="hidden fixed inset-0 bg-brand-dark/90 backdrop-blur-sm z-50 overflow-y-auto p-4 md:p-8">
+        <div class="max-w-4xl w-full mx-auto bg-brand-surface rounded-2xl border border-gray-700 shadow-2xl p-6 md:p-8 relative">
+            <button onclick="closeDetailModal()" class="absolute top-4 right-4 text-brand-muted hover:text-white text-3xl">&times;</button>
+            <h2 id="modal-object-id" class="section-title"></h2>
+            <div id="modal-content" class="grid md:grid-cols-2 gap-8 mt-8">
+                </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

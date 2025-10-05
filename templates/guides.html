@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de Conhecimento - AstroBit</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark': '#0a0f18',
+                        'brand-surface': '#111827',
+                        'brand-primary': '#38bdf8',
+                        'brand-muted': '#9ca3af',
+                    },
+                },
+            },
+        };
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0f18;
+            color: #d1d5db;
+        }
+        /* Estilo para o link de navegação ativo */
+        .nav-link-active {
+            color: #38bdf8; /* brand-primary */
+            background-color: rgba(56, 189, 248, 0.1);
+        }
+    </style>
+</head>
+
+<body class="overflow-x-hidden">
+
+    <header class="sticky top-0 z-50 bg-brand-dark/80 backdrop-blur-sm border-b border-gray-800">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white tracking-wider">AstroBit</a>
+            <a href="index.html" class="font-semibold text-brand-muted hover:text-white transition-colors">
+                &larr; Voltar à Página Inicial
+            </a>
+        </nav>
+    </header>
+
+    <div class="container mx-auto px-6 py-16">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-white">Base de Conhecimento</h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-brand-muted">
+                Um portal completo para entender a ciência, os dados e a nossa ferramenta na busca por novos mundos.
+            </p>
+        </div>
+
+        <div class="lg:grid lg:grid-cols-4 lg:gap-12">
+
+            <aside class="lg:col-span-1 mb-12 lg:mb-0">
+                <nav class="lg:sticky lg:top-24">
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#guide-exoplanets" data-nav-link="guide-exoplanets" class="nav-link-active flex items-center gap-3 p-3 rounded-lg font-semibold transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                                <span>O que são Exoplanetas?</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#guide-data" data-nav-link="guide-data" class="text-brand-muted hover:bg-white/5 flex items-center gap-3 p-3 rounded-lg font-semibold transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M5 20h14"/><rect width="18" height="12" x="3" y="8" rx="2"/></svg>
+                                <span>Entendendo os Dados</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#guide-tool" data-nav-link="guide-tool" class="text-brand-muted hover:bg-white/5 flex items-center gap-3 p-3 rounded-lg font-semibold transition-colors">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><line x1="9" x2="15" y1="12" y2="12"/><line x1="12" x2="12" y1="9" y2="15"/></svg>
+                                <span>Como Usar a Ferramenta</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="lg:col-span-3 space-y-12">
+                
+                <section id="guide-exoplanets" data-section class="surface-card p-8 md:p-10 border border-gray-800 rounded-xl">
+                    <article class="prose prose-lg prose-invert max-w-none">
+                        <h3>Mundos Além do Nosso Sol</h3>
+                        <p>Exoplanetas, ou planetas extrassolares, são planetas que orbitam estrelas fora do nosso Sistema Solar. A confirmação do primeiro exoplaneta em 1992 abriu um campo inteiramente novo na astronomia. Desde então, milhares foram descobertos, variando de gigantes gasosos maiores que Júpiter a mundos rochosos semelhantes à Terra.</p>
+                        <p>A busca por exoplanetas é fundamental para responder a algumas das maiores questões da humanidade: Estamos sozinhos no universo? Como os sistemas planetários se formam e evoluem? Existem outras Terras lá fora?</p>
+                        
+                        <h4>O Método de Trânsito</h4>
+                        <p>AstroBit foca no <strong>método de trânsito</strong>, uma das técnicas mais bem-sucedidas. Quando um planeta passa na frente de sua estrela (do nosso ponto de vista), ele bloqueia uma pequena fração da luz, causando uma diminuição minúscula e periódica no brilho. Telescópios como o Kepler e o TESS foram projetados para detectar essas quedas de brilho, que são a assinatura de um possível planeta.</p>
+                    </article>
+                </section>
+
+                <section id="guide-data" data-section class="surface-card p-8 md:p-10 border border-gray-800 rounded-xl">
+                    <article class="prose prose-lg prose-invert max-w-none">
+                         <h3>Glossário de Parâmetros Astronômicos</h3>
+                         <p>A classificação de um objeto depende da análise cuidadosa de vários parâmetros. Abaixo está um detalhamento das features que nosso modelo de IA utiliza.</p>
+                         <ul>
+                            <li><strong>Período Orbital (dias):</strong> O tempo que o planeta leva para completar uma órbita.</li>
+                            <li><strong>Duração do Trânsito (horas):</strong> O tempo que a luz da estrela diminui.</li>
+                            <li><strong>Profundidade do Trânsito (ppm):</strong> A porcentagem de luz bloqueada, relacionada ao tamanho do planeta.</li>
+                            <li><strong>Raio do Planeta (R⊕):</strong> O raio estimado do planeta em múltiplos do raio da Terra.</li>
+                            <li><strong>Temperatura Estelar (K):</strong> A temperatura da superfície da estrela.</li>
+                            <li><strong>Raio Estelar (R☉):</strong> O raio da estrela em múltiplos do raio do Sol.</li>
+                         </ul>
+                    </article>
+                </section>
+
+                <section id="guide-tool" data-section class="surface-card p-8 md:p-10 border border-gray-800 rounded-xl">
+                     <article class="prose prose-lg prose-invert max-w-none">
+                        <h3>Analisando Seus Dados com AstroBit</h3>
+                        <p>Nossa plataforma foi projetada para ser intuitiva. Você pode analisar dados de duas maneiras:</p>
+                        
+                        <h4>1. Upload de Arquivo CSV</h4>
+                        <ol>
+                            <li><strong>Prepare seu arquivo:</strong> Certifique-se de que seus dados estão em um formato CSV, com os nomes das colunas na primeira linha.</li>
+                            <li><strong>Faça o upload e Mapeie as colunas:</strong> A ferramenta tentará associar automaticamente as colunas do seu arquivo aos parâmetros do AstroBit. Corrija se necessário.</li>
+                            <li><strong>Analise:</strong> Clique em "Analisar Dados" para submeter seus dados ao modelo de IA e ser redirecionado para a página de resultados.</li>
+                        </ol>
+                        
+                        <h4>2. Entrada Manual de Dados</h4>
+                        <ol>
+                            <li><strong>Selecione a opção:</strong> Na seção de análise, mude para a aba "Entrada Manual".</li>
+                            <li><strong>Preencha o formulário:</strong> Insira os valores para um único objeto de interesse.</li>
+                            <li><strong>Analise:</strong> Clique em "Analisar Dados" para obter uma classificação instantânea.</li>
+                        </ol>
+                     </article>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <footer class="bg-brand-dark border-t border-gray-800 mt-16">
+        </footer>
+
+    <script>
+        // Lógica para destacar o link de navegação ativo no scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('[data-section]');
+            const navLinks = document.querySelectorAll('[data-nav-link]');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        
+                        navLinks.forEach(link => {
+                            link.classList.remove('nav-link-active');
+                            link.classList.add('text-brand-muted', 'hover:bg-white/5');
+                        });
+
+                        const activeLink = document.querySelector(`[data-nav-link=${id}]`);
+                        if (activeLink) {
+                            activeLink.classList.add('nav-link-active');
+                            activeLink.classList.remove('text-brand-muted', 'hover:bg-white/5');
+                        }
+                    }
+                });
+            }, { rootMargin: '-30% 0px -70% 0px' }); // Ativa quando a seção está no meio da tela
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>

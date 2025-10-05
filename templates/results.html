@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados da Análise - AstroBit AI</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { 'brand-dark': '#0a0f18', 'brand-surface': '#111827', 'brand-primary': '#38bdf8', 'brand-muted': '#9ca3af' } } } };
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-brand-dark">
+
+    <header id="navbar" class="sticky top-0 z-50 bg-brand-dark/80 backdrop-blur-sm border-b border-gray-800">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white tracking-wider">AstroBit AI</a>
+            <a href="index.html" class="bg-brand-primary text-brand-dark font-bold py-2 px-6 rounded-lg text-md transition duration-300 hover:bg-sky-400">
+                Fazer Nova Análise
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="results-container" class="container mx-auto px-6 py-16">
+            <h1 class="section-title">Resultados da Análise</h1>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center mb-12">
+                <div class="bg-brand-surface p-4 rounded-lg border border-gray-700">
+                    <p class="text-4xl font-bold text-white" id="total-analyzed">0</p>
+                    <p class="text-sm text-brand-muted">Entradas Analisadas</p>
+                </div>
+                <div class="bg-brand-surface p-4 rounded-lg border border-gray-700">
+                    <p class="text-4xl font-bold text-green-400" id="total-confirmed">0</p>
+                    <p class="text-sm text-brand-muted">Planetas Confirmados</p>
+                </div>
+                <div class="bg-brand-surface p-4 rounded-lg border border-gray-700">
+                    <p class="text-4xl font-bold text-yellow-400" id="total-candidates">0</p>
+                    <p class="text-sm text-brand-muted">Candidatos</p>
+                </div>
+                <div class="bg-brand-surface p-4 rounded-lg border border-gray-700">
+                    <p class="text-4xl font-bold text-red-400" id="total-false-positives">0</p>
+                    <p class="text-sm text-brand-muted">Falsos Positivos</p>
+                </div>
+            </div>
+
+            <!-- FILTRO -->
+            <div class="flex items-center justify-between mb-4">
+              <label for="filter" class="text-sm font-medium text-gray-200">Filtrar por:</label>
+              <select id="filter" class="bg-brand-surface border border-gray-600 rounded p-2 text-sm text-gray-200">
+                <option value="all">All</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="candidate">Candidate</option>
+                <option value="false positive">False</option>
+              </select>
+            </div>
+
+            <!-- TABELA -->
+            <div class="overflow-x-auto max-h-60 overflow-y-auto rounded">
+              <table class="w-full text-left">
+                <thead class="sticky top-0 bg-brand-surface">
+                  <tr class="border-b border-gray-700">
+                    <th class="p-3 text-sm font-semibold text-brand-muted uppercase tracking-wider">ID do Objeto</th>
+                    <th class="p-3 text-sm font-semibold text-brand-muted uppercase tracking-wider">Classificação</th>
+                    <th class="p-3 text-sm font-semibold text-brand-muted uppercase tracking-wider">Período Orbital (dias)</th>
+                    <th class="p-3 text-sm font-semibold text-brand-muted uppercase tracking-wider">Raio do Planeta (R⊕)</th>
+                    <th class="p-3"></th>
+                  </tr>
+                </thead>
+                <tbody id="results-table-body">
+                  <!-- Linhas serão carregadas dinamicamente -->
+                </tbody>
+              </table>
+            </div>
+             </div>
+
+
+
+        <section id="dataset-analytics" class="container mx-auto px-6 py-16">
+            <h2 class="section-title">Análise Estatística do Conjunto de Dados</h2>
+            <div class="space-y-12">
+
+                <div class="surface-card p-6 border border-gray-700 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4 text-white">Estatísticas Descritivas Gerais</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead id="descriptive-stats-head">
+                                </thead>
+                            <tbody id="descriptive-stats-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="surface-card p-6 border border-gray-700 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4 text-white">Média dos Parâmetros por Classificação</h3>
+                    <div class="overflow-x-auto">
+                         <table class="w-full text-left text-sm">
+                            <thead id="classification-analysis-head">
+                                </thead>
+                            <tbody id="classification-analysis-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="graphical-analysis" class="container mx-auto px-6 py-16">
+            <h2 class="section-title">Análise Gráfica e Interpretação do Modelo</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <div class="surface-card p-6 border border-gray-700 rounded-lg lg:col-span-2">
+                    <h3 id="decision-tree-title" class="text-xl font-bold mb-2 text-white">Exemplo de uma Árvore de Decisão</h3>
+
+                    <p class="text-brand-muted text-sm mb-4">
+                        Abaixo, uma das centenas de árvores do modelo, selecionada aleatoriamente. **Clique em uma linha da tabela de resultados** para recalcular o gráfico e ver o caminho de decisão exato para aquele objeto.
+                    </p>
+
+                    <div id="decision-tree-image-container" class="bg-brand-dark p-4 rounded-lg flex items-center justify-center min-h-[400px] border border-gray-700 overflow-auto"> </div>
+                </div>
+
+                <div class="surface-card p-6 border border-gray-700 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-white">Distribuição do Raio Planetário</h3>
+                    <p class="text-brand-muted text-sm mb-4">
+                        Este gráfico (futuro) mostrará a frequência de planetas por tamanho, ajudando a identificar os tamanhos mais comuns no dataset.
+                    </p>
+                    <canvas id="planetRadiusDistributionChart"></canvas>
+                </div>
+
+                <div class="surface-card p-6 border border-gray-700 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-white">Temperatura Estelar vs. Período Orbital</h3>
+                    <p class="text-brand-muted text-sm mb-4">
+                        Este gráfico de dispersão (futuro) analisará a relação entre a temperatura da estrela e o tempo que um planeta leva para orbitá-la.
+                    </p>
+                    <canvas id="tempVsPeriodChart"></canvas>
+                </div>
+
+            </div>
+        </section>
+
+
+    </main>
+
+
+
+    <div id="planet-detail-modal" class="hidden fixed inset-0 bg-brand-dark/90 backdrop-blur-sm z-[60] overflow-y-auto p-4 md:p-8 flex items-center justify-center">
+        <div class="max-w-7xl w-full mx-auto bg-brand-surface rounded-2xl border border-gray-700 shadow-2xl p-6 md:p-8 relative">
+            <button onclick="closeDetailModal()" class="absolute top-4 right-4 text-brand-muted hover:text-white text-3xl">&times;</button>
+            <h2 id="modal-object-id" class="text-3xl font-bold text-white text-center mb-8"></h2>
+
+            <div id="modal-content" class="grid lg:grid-cols-2 gap-8">
+                </div>
+
+            <div id="tree-visualization-container" class="mt-8 border-t border-gray-700 pt-8">
+                <h3 class="text-xl font-bold mb-4 text-white">Caminho de Decisão (Exemplo de uma Árvore)</h3>
+                <div id="tree-image-placeholder" class="bg-brand-dark p-4 rounded-lg flex items-center justify-center min-h-[300px] border border-gray-700">
+                    <p class="text-brand-muted">Gerando visualização do caminho...</p>
+                </div>
+            </div>
+            </div>
+    </div>
+
+
+<footer class="bg-brand-dark border-t border-gray-800">
+    <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <div>
+                <h3 class="text-2xl font-bold text-white mb-2">AstroBit AI</h3>
+                <p class="text-brand-muted max-w-xs">
+                    Uma plataforma de IA para acelerar a descoberta de exoplanetas, utilizando dados da missão Kepler da NASA.
+                </p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-brand-muted hover:text-brand-primary transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" /></svg>
+                    </a>
+                    <a href="#" class="text-brand-muted hover:text-brand-primary transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold text-white">Navegação</h4>
+                <ul class="mt-4 space-y-2">
+                    <li><a href="index.html#about" class="text-brand-muted hover:text-brand-primary transition-colors">O Projeto</a></li>
+                    <li><a href="index.html#data-input" class="text-brand-muted hover:text-brand-primary transition-colors">Análise de Dados</a></li>
+                    <li><a href="index.html#ai-model" class="text-brand-muted hover:text-brand-primary transition-colors">Modelo IA</a></li>
+                    <li><a href="guias.html" class="text-brand-muted hover:text-brand-primary transition-colors">Base de Conhecimento</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold text-white">Fontes e Tecnologias</h4>
+                <ul class="mt-4 space-y-2 text-brand-muted">
+                    <li class="flex items-center gap-2">Dados fornecidos pela <a href="https://exoplanetarchive.ipac.caltech.edu/" target="_blank" class="underline hover:text-brand-primary">NASA Exoplanet Archive</a>.</li>
+                    <li>Modelo de IA construído com Scikit-learn.</li>
+                    <li>Visualizações por Chart.js e Swiper.js.</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="mt-8 pt-8 border-t border-gray-800 text-center text-brand-muted">
+            <p>&copy; 2025 Projeto AstroBit. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        // global variable graph
+        let detailChart1, detailChart2;
+
+        function closeDetailModal() {
+            document.getElementById('planet-detail-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function showDetailModal(data) {
+            document.getElementById('modal-object-id').textContent = `Detalhes de ${data.koi_name || data.object_id || 'N/A'}`;
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = '';
+            let detailsHtml = `
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">Dados do Objeto</h4>
+                        <ul class="bg-brand-dark border border-gray-700 p-4 rounded-lg space-y-2 text-sm">`;
+            for (const key in data) {
+                detailsHtml += `
+                            <li class="flex justify-between items-center">
+                                <span class="text-brand-muted capitalize">${key.replace(/_/g, ' ')}:</span>
+                                <span class="font-mono text-white text-right">${data[key]}</span>
+                            </li>`;
+            }
+            detailsHtml += `
+                        </ul>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">Comparação Paramétrica</h4>
+                        <div class="bg-brand-dark border border-gray-700 p-4 rounded-lg"><canvas id="detail-chart1"></canvas></div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold text-white mb-2">Propriedades Estelares</h4>
+                        <div class="bg-brand-dark border border-gray-700 p-4 rounded-lg"><canvas id="detail-chart2"></canvas></div>
+                    </div>
+                </div>`;
+
+            modalContent.innerHTML = detailsHtml;
+            const treePlaceholder = document.getElementById('tree-image-placeholder');
+            treePlaceholder.innerHTML = `<p class="text-brand-muted animate-pulse">Gerando visualização do caminho...</p>`;
+
+            fetch('/decision_path', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.image) {
+                    treePlaceholder.innerHTML = `<img src="${result.image}" alt="Gráfico da Árvore de Decisão" class="max-w-full h-auto">`;
+                } else {
+                    treePlaceholder.innerHTML = `<p class="text-red-500">Erro ao gerar a visualização.</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar o gráfico da árvore:', error);
+                treePlaceholder.innerHTML = `<p class="text-red-500">Erro ao carregar a visualização.</p>`;
+            });
+            document.getElementById('planet-detail-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function loadRandomTree() {
+            const treeContainer = document.getElementById('decision-tree-image-container');
+            const treeTitle = document.getElementById('decision-tree-title');
+
+            treeTitle.textContent = 'Exemplo de uma Árvore de Decisão Aleatória';
+            treeContainer.innerHTML = `<p class="text-brand-muted animate-pulse">Carregando uma árvore aleatória do modelo...</p>`;
+
+            fetch('/random_tree_image')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.image) {
+                        treeContainer.innerHTML = `<img src="${data.image}" alt="Gráfico de uma Árvore de Decisão aleatória" class="max-w-full h-auto transition-opacity duration-500 opacity-0" onload="this.style.opacity=1">`;
+                    } else {
+                        treeContainer.innerHTML = `<p class="text-red-500">Não foi possível carregar a visualização.</p>`;
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro ao carregar árvore aleatória:", error);
+                    treeContainer.innerHTML = `<p class="text-red-500">Não foi possível carregar a visualização.</p>`;
+                });
+        }
+        function showTreeForData(data) {
+            const treeContainer = document.getElementById('decision-tree-image-container');
+            const treeTitle = document.getElementById('decision-tree-title');
+            const objectId = data.koi_name || data.object_id || 'N/A';
+            treeTitle.textContent = `Analisando Caminho de Decisão para: ${objectId}`;
+            treeContainer.innerHTML = `<p class="text-brand-muted animate-pulse">Gerando caminho para ${objectId}...</p>`;
+            fetch('/decision_path', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.image) {
+                    treeContainer.innerHTML = `<img src="${result.image}" alt="Caminho de decisão para ${objectId}" class="max-w-full h-auto transition-opacity duration-500 opacity-0" onload="this.style.opacity=1">`;
+                } else {
+                    treeContainer.innerHTML = `<p class="text-red-500">Erro ao gerar a visualização do caminho.</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar o gráfico da árvore:', error);
+                treeContainer.innerHTML = `<p class="text-red-500">Erro ao carregar a visualização do caminho.</p>`;
+            });
+        }
+
+        function getStats(arr) {
+            const n = arr.length;
+            if (n === 0) return { mean: 0, std: 0, min: 0, q1: 0, median: 0, q3: 0, max: 0 };
+            const sum = arr.reduce((a, b) => a + b, 0);
+            const mean = sum / n;
+            const std = Math.sqrt(arr.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b, 0) / n);
+            const sorted = [...arr].sort((a, b) => a - b);
+            const min = sorted[0];
+            const max = sorted[n - 1];
+            const q1 = sorted[Math.floor(n * 0.25)];
+            const median = sorted[Math.floor(n * 0.5)];
+            const q3 = sorted[Math.floor(n * 0.75)];
+            return { mean, std, min, q1, median, q3, max };
+        }
+
+        function displayDescriptiveStats(results) {
+            const features = ['orbital_period', 'transit_duration', 'planet_radius', 'stellar_temp', 'stellar_radius'];
+            const stats = {};
+
+            features.forEach(feature => {
+                const data = results.map(r => parseFloat(r[feature])).filter(v => !isNaN(v));
+                stats[feature] = getStats(data);
+            });
+
+            const head = document.getElementById('descriptive-stats-head');
+            const body = document.getElementById('descriptive-stats-body');
+
+            head.innerHTML = `
+                <tr class="border-b border-gray-700">
+                    <th class="p-3 text-brand-muted uppercase tracking-wider">Métrica</th>
+                    ${features.map(f => `<th class="p-3 text-brand-muted uppercase tracking-wider">${f.replace('_', ' ')}</th>`).join('')}
+                </tr>`;
+
+            const metrics = ['Média', 'Desvio Padrão', 'Mínimo', '25%', 'Mediana', '75%', 'Máximo'];
+            const statKeys = ['mean', 'std', 'min', 'q1', 'median', 'q3', 'max'];
+
+            body.innerHTML = metrics.map((metric, i) => `
+                <tr class="border-b border-gray-800">
+                    <td class="p-3 font-semibold text-white">${metric}</td>
+                    ${features.map(f => `<td class="p-3 font-mono">${stats[f][statKeys[i]].toFixed(2)}</td>`).join('')}
+                </tr>
+            `).join('');
+        }
+
+        function displayClassificationAnalysis(results) {
+            const features = ['orbital_period', 'transit_duration', 'planet_radius', 'stellar_temp'];
+            const classifications = ['CONFIRMED', 'CANDIDATE', 'FALSE POSITIVE'];
+            const analysis = {};
+            classifications.forEach(c => {
+                const filteredResults = results.filter(r => r.classification === c);
+                analysis[c] = {};
+                features.forEach(feature => {
+                    const data = filteredResults.map(r => parseFloat(r[feature])).filter(v => !isNaN(v));
+                    const sum = data.reduce((a, b) => a + b, 0);
+                    analysis[c][feature] = data.length > 0 ? (sum / data.length) : 0;
+                });
+            });
+
+            const head = document.getElementById('classification-analysis-head');
+            const body = document.getElementById('classification-analysis-body');
+
+            head.innerHTML = `
+                 <tr class="border-b border-gray-700">
+                    <th class="p-3 text-brand-muted uppercase tracking-wider">Parâmetro</th>
+                    <th class="p-3 text-green-400 uppercase tracking-wider">Confirmado (Média)</th>
+                    <th class="p-3 text-yellow-400 uppercase tracking-wider">Candidato (Média)</th>
+                    <th class="p-3 text-red-400 uppercase tracking-wider">Falso Positivo (Média)</th>
+                </tr>`;
+
+            body.innerHTML = features.map(f => `
+                <tr class="border-b border-gray-800">
+                    <td class="p-3 font-semibold text-white">${f.replace(/_/g, ' ')}</td>
+                    <td class="p-3 font-mono">${analysis['CONFIRMED'][f].toFixed(2)}</td>
+                    <td class="p-3 font-mono">${analysis['CANDIDATE'][f].toFixed(2)}</td>
+                    <td class="p-3 font-mono">${analysis['FALSE POSITIVE'][f].toFixed(2)}</td>
+                </tr>
+            `).join('');
+        }
+
+        /**
+ * Cria um gráfico de barras com a distribuição dos planetas por categorias de tamanho.
+ * @param {Array} results - O array completo de resultados da análise.
+ */
+function createRadiusDistributionChart(results) {
+    const ctx = document.getElementById('planetRadiusDistributionChart').getContext('2d');
+
+    // 1. Definir as categorias de tamanho (em raios terrestres)
+    const categories = {
+        'Sub-Terran (<0.8)': 0,
+        'Terran (0.8-1.6)': 0,
+        'Super-Terra (1.6-2.5)': 0,
+        'Mini-Netuno (2.5-4)': 0,
+        'Gigante (>4)': 0
+    };
+
+    // 2. Contar quantos planetas caem em cada categoria
+    results.forEach(r => {
+        const radius = parseFloat(r.planet_radius);
+        if (isNaN(radius)) return;
+
+        if (radius < 0.8) categories['Sub-Terran (<0.8)']++;
+        else if (radius >= 0.8 && radius < 1.6) categories['Terran (0.8-1.6)']++;
+        else if (radius >= 1.6 && radius < 2.5) categories['Super-Terra (1.6-2.5)']++;
+        else if (radius >= 2.5 && radius < 4) categories['Mini-Netuno (2.5-4)']++;
+        else if (radius >= 4) categories['Gigante (>4)']++;
+    });
+
+    // 3. Criar o gráfico
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(categories),
+            datasets: [{
+                label: 'Contagem de Planetas',
+                data: Object.values(categories),
+                backgroundColor: '#38bdf8', // Azul AstroBit
+                borderColor: '#0ea5e9',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1f2937',
+                    titleColor: '#f9fafb',
+                    bodyColor: '#e5e7eb',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Contagem', color: '#9ca3af' },
+                    ticks: { color: '#9ca3af', stepSize: 1 },
+                    grid: { color: '#374151' }
+                },
+                x: {
+                    ticks: { color: '#9ca3af' },
+                    grid: { color: '#1f2937' }
+                }
+            }
+        }
+    });
+}
+
+
+/**
+ * Cria um gráfico de dispersão (scatter plot) da temperatura estelar vs. período orbital.
+ * @param {Array} results - O array completo de resultados da análise.
+ */
+function createTempVsPeriodChart(results) {
+    const ctx = document.getElementById('tempVsPeriodChart').getContext('2d');
+
+    // 1. Separar os dados por classificação para colorir os pontos
+    const confirmedData = [];
+    const candidateData = [];
+    const falsePositiveData = [];
+
+    results.forEach(r => {
+        const period = parseFloat(r.orbital_period);
+        const temp = parseFloat(r.stellar_temp);
+        const name = r.koi_name || r.object_id || 'N/A';
+
+        if (isNaN(period) || isNaN(temp)) return;
+
+        const point = { x: period, y: temp, name: name };
+
+        if (r.classification === 'CONFIRMED') confirmedData.push(point);
+        else if (r.classification === 'CANDIDATE') candidateData.push(point);
+        else falsePositiveData.push(point);
+    });
+
+    // 2. Criar o gráfico
+    new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [
+                {
+                    label: 'Confirmado',
+                    data: confirmedData,
+                    backgroundColor: '#22c55e' // Verde
+                },
+                {
+                    label: 'Candidato',
+                    data: candidateData,
+                    backgroundColor: '#facc15' // Amarelo
+                },
+                {
+                    label: 'Falso Positivo',
+                    data: falsePositiveData,
+                    backgroundColor: '#ef4444' // Vermelho
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: '#9ca3af' } },
+                tooltip: {
+                    backgroundColor: '#1f2937',
+                    titleColor: '#f9fafb',
+                    bodyColor: '#e5e7eb',
+                    callbacks: {
+                        label: function(context) {
+                            const point = context.raw;
+                            return `${point.name}: Período ${point.x.toFixed(2)}d, Temp. ${point.y}K`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    title: { display: true, text: 'Temperatura Estelar (K)', color: '#9ca3af' },
+                    ticks: { color: '#9ca3af' },
+                    grid: { color: '#374151' }
+                },
+                x: {
+                    type: 'logarithmic', // Escala logarítmica é melhor para períodos orbitais
+                    title: { display: true, text: 'Período Orbital (dias)', color: '#9ca3af' },
+                    ticks: { color: '#9ca3af' },
+                    grid: { color: '#374151' }
+                }
+            }
+        }
+    });
+}
+
+
+        // ========== MAIN ========== //
+        document.addEventListener('DOMContentLoaded', () => {
+            const resultsJSON = localStorage.getItem('analysisResults');
+            if (!resultsJSON) {
+                document.getElementById('results-container').innerHTML = `<h1 class="section-title text-red-500">Nenhum Resultado Encontrado</h1><p class="text-center text-brand-muted">Por favor, volte à página inicial e submeta seus dados para análise.</p>`;
+                return;
+            }
+            const results = JSON.parse(resultsJSON);
+            const counts = { 'CONFIRMED': 0, 'CANDIDATE': 0, 'FALSE POSITIVE': 0 };
+            results.forEach(r => {
+                if (counts.hasOwnProperty(r.classification)) {
+                    counts[r.classification]++;
+                }
+            });
+
+
+
+
+            document.getElementById('total-analyzed').textContent = results.length;
+            document.getElementById('total-confirmed').textContent = counts['CONFIRMED'];
+            document.getElementById('total-candidates').textContent = counts['CANDIDATE'];
+            document.getElementById('total-false-positives').textContent = counts['FALSE POSITIVE'];
+
+            const tableBody = document.getElementById('results-table-body');
+            tableBody.innerHTML = '';
+            results.forEach((result) => {
+                const colorClass = result.classification === 'CONFIRMED' ? 'text-green-400'
+                                   : result.classification === 'CANDIDATE' ? 'text-yellow-400'
+                                   : 'text-red-400';
+
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-800 hover:bg-brand-dark';
+
+
+                row.setAttribute('data-status', result.classification.toLowerCase());
+
+                row.innerHTML = `
+                    <td class="p-3 font-semibold text-white">${result.koi_name || result.object_id || 'N/A'}</td>
+                    <td class="p-3 ${colorClass} font-semibold">${result.classification}</td>
+                    <td class="p-3 font-mono text-gray-300">${result.orbital_period ? parseFloat(result.orbital_period).toFixed(4) : 'N/A'}</td>
+                    <td class="p-3 font-mono text-gray-300">${result.planet_radius ? parseFloat(result.planet_radius).toFixed(2) : 'N/A'}</td>
+                    <td class="p-3 text-right">
+                        <button class="text-brand-primary hover:underline text-sm font-semibold"
+                                onclick='showDetailModal(${JSON.stringify(result)})'>
+                            Detalhes
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+      // Filtro
+            document.getElementById("filter").addEventListener("change", function () {
+                const value = this.value.toLowerCase();
+                const rows = document.querySelectorAll("#results-table-body tr");
+
+                rows.forEach(row => {
+                    const status = row.getAttribute("data-status");
+                    row.style.display = (value === "all" || status === value) ? "" : "none";
+                });
+            });
+
+
+
+            displayClassificationAnalysis(results);
+            displayDescriptiveStats(results);
+            loadRandomTree();
+
+            createRadiusDistributionChart(results);
+            createTempVsPeriodChart(results);
+            localStorage.removeItem('analysisResults');
+        });
+
+    </script>
+</body>
+</html>
