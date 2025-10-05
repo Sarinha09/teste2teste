@@ -5,6 +5,7 @@ import json
 import io
 import base64
 import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 from flask import Flask, request, jsonify, render_template
@@ -221,4 +222,5 @@ def random_tree_image():
         return jsonify({"error": "Falha ao gerar a imagem da árvore"}), 500
 
 if __name__ == '__main__':
+
     app.run(debug=True)
